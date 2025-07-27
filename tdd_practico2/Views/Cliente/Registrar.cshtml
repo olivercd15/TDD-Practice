@@ -1,0 +1,74 @@
+﻿@model ProyectoIdentity.Models.ClienteViewModel
+
+@{
+    ViewData["Title"] = "Registrar Cliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card mt-4">
+    <div class="card-body">
+        @if (TempData["MensajeExito"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["MensajeExito"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        <h3 class="card-title text-center mb-4">Registro de Cliente</h3>
+        <form asp-action="Registrar" method="post" autocomplete="off">
+            <div class="text-danger" asp-validation-summary="All"></div>
+
+            <div class="mb-3">
+                <label asp-for="CodigoCliente" class="form-label"></label>
+                <input asp-for="CodigoCliente" class="form-control" />
+                <span asp-validation-for="CodigoCliente" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Nombre" class="form-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="TipoDocumento" class="form-label"></label>
+                <select asp-for="TipoDocumento" class="form-select">
+                    <option value="">Seleccione...</option>
+                    @foreach (var tipo in Enum.GetValues(typeof(ProyectoIdentity.Models.TipoDocumento)))
+                    {
+                        <option value="@tipo">@tipo</option>
+                    }
+                </select>
+                <span asp-validation-for="TipoDocumento" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="NroDocumento" class="form-label"></label>
+                <input asp-for="NroDocumento" class="form-control" />
+                <span asp-validation-for="NroDocumento" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="GrupoClienteId" class="form-label"></label>
+                <select asp-for="GrupoClienteId" class="form-select" asp-items="Model.GrupoClientes">
+                    <option value="">Seleccione...</option>
+                </select>
+                <span asp-validation-for="GrupoClienteId" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 btn-lg">Registrar Cliente</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -21,7 +21,7 @@
         public string CodigoCliente { get; set; }
         public string Nombre { get; set; }
         public TipoDocumento TipoDocumento { get; set; }
-        public int NroDocumento { get; set; }
+        public string NroDocumento { get; set; }
         public string Email { get; set; }
         public int GrupoClienteId { get; set; }
         public GrupoCliente GrupoCliente {  get; set; }

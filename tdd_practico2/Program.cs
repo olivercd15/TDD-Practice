@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProyectoIdentity.Datos;
+using ProyectoIdentity.Negocio;
 
 namespace ProyectoIdentity
 {
@@ -19,6 +20,7 @@ namespace ProyectoIdentity
             //agregar el servicio de identity a la aplicación}
             //tenemos que agregar el contexto como inyeccion de dependencias
             builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddScoped<ClienteService>();
 
             var app = builder.Build();
            
