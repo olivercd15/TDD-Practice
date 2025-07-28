@@ -19,66 +19,59 @@ namespace Reqnroll_BDD.StepDefinitions
             _ui = ui;
         }
 
-        [Given(@"el usuario abre la página de registro de factura")]
+        [Given(@"el usuario abre la pagina de registro de factura")]
         public void GivenElUsuarioAbrePagina()
         {
-            _ui.Driver.Navigate().GoToUrl("https://localhost:5001/factura/crear");
+            _ui.Driver.Navigate().GoToUrl("http://localhost:5234/Factura/Registrar");
         }
 
         [When(@"selecciona el cliente ""(.*)""")]
-        public void WhenSeleccionaCliente(string nombre)
+        public void WhenSeleccionaCliente(string cliente)
         {
-            var clienteSelect = _ui.Driver.FindElement(By.Id("cliente"));
-            new SelectElement(clienteSelect).SelectByText(nombre);
+            var selectCliente = _ui.Driver.FindElement(By.Name("ClienteId"));
+            new SelectElement(selectCliente).SelectByText(cliente);
+            Thread.Sleep(2000);
         }
 
         [When(@"selecciona el producto ""(.*)""")]
-        public void WhenSeleccionaProducto(string nombre)
+        public void WhenSeleccionaProducto(string producto)
         {
-            var productoSelect = _ui.Driver.FindElement(By.Id("producto"));
-            new SelectElement(productoSelect).SelectByText(nombre);
-        }
-
-        [When(@"el sistema muestra el precio venta de ""(.*)""")]
-        public void WhenElSistemaMuestraPrecio(string precio)
-        {
-            var precioInput = _ui.Driver.FindElement(By.Id("precioVenta"));
-            Assert.AreEqual(precio, precioInput.GetAttribute("value"));
-        }
-
-        [When(@"el grupo cliente tiene un descuento de (.*)")]
-        public void WhenGrupoClienteDescuento(int descuento)
-        {
-            var descuentoInput = _ui.Driver.FindElement(By.Id("descuentoCliente"));
-            Assert.AreEqual(descuento.ToString(), descuentoInput.GetAttribute("value"));
-        }
-
-        [When(@"el grupo producto tiene un descuento de (.*)")]
-        public void WhenGrupoProductoDescuento(int descuento)
-        {
-            var descuentoInput = _ui.Driver.FindElement(By.Id("descuentoProducto"));
-            Assert.AreEqual(descuento.ToString(), descuentoInput.GetAttribute("value"));
+            var selectProducto = _ui.Driver.FindElement(By.CssSelector(".producto-select"));
+            new SelectElement(selectProducto).SelectByText(producto);
+            Thread.Sleep(2000);
         }
 
         [When(@"el usuario ingresa cantidad (.*)")]
         public void WhenUsuarioIngresaCantidad(int cantidad)
         {
-            var cantidadInput = _ui.Driver.FindElement(By.Id("cantidad"));
-            cantidadInput.Clear();
-            cantidadInput.SendKeys(cantidad.ToString());
+            var inputCantidad = _ui.Driver.FindElement(By.CssSelector(".cantidad-input"));
+            inputCantidad.Clear();
+            inputCantidad.SendKeys(cantidad.ToString());
+            Thread.Sleep(2000);
         }
 
-        [When(@"hace clic en el botón ""(.*)""")]
-        public void WhenHaceClickEnBoton(string nombreBoton)
+        [Then(@"el precio unitario UI debe ser (.*)")]
+        public void ThenPrecioUnitario(int esperado)
         {
-            _ui.Driver.FindElement(By.XPath($"//button[text()='{nombreBoton}']")).Click();
+            var precio = _ui.Driver.FindElement(By.CssSelector(".precio-unitario-input")).GetAttribute("value");
+            Assert.AreEqual(esperado, int.Parse(precio));
+            Thread.Sleep(2000);
         }
 
-        [Then(@"el sistema debe mostrar un total de ""(.*)""")]
-        public void ThenDebeMostrarTotal(string esperado)
+        [Then(@"el total del producto UI debe ser (.*)")]
+        public void ThenTotalDelProducto(decimal esperado)
         {
-            var total = _ui.Driver.FindElement(By.Id("totalFactura")).Text;
-            Assert.AreEqual(esperado, total);
+            var total = _ui.Driver.FindElement(By.CssSelector(".total-input")).GetAttribute("value");
+            Assert.AreEqual(esperado, Decimal.Parse(total));
+            Thread.Sleep(2000);
+        }
+
+        [Then(@"el total de la factura UI debe ser (.*)")]
+        public void ThenTotalFactura(decimal esperado)
+        {
+            var total = _ui.Driver.FindElement(By.Id("totalFactura")).GetAttribute("value");
+            Assert.AreEqual(esperado, Decimal.Parse(total));
+            Thread.Sleep(2000);
         }
     }
 }

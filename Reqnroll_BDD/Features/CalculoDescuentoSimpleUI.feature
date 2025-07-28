@@ -1,12 +1,10 @@
-Feature: Calculo de descuentos desde la interfaz
+Feature: Calculo visual de descuentos en UI
 
-  Scenario: Calcular correctamente el total con descuentos combinados
+  Scenario: Calcular descuento combinado desde la vista
     Given el usuario abre la pagina de registro de factura
     When selecciona el cliente "Juan Perez"
-    And selecciona el producto "Taladro BOSCH"
-    And el sistema muestra el precio venta de "990"
-    And el grupo cliente tiene un descuento de 8
-    And el grupo producto tiene un descuento de 3
+    And selecciona el producto "Taladro Bosh"
     And el usuario ingresa cantidad 1
-    And hace clic en el boton "Calcular"
-    Then el sistema debe mostrar un total de "881.10"
+    Then el precio unitario UI debe ser 990
+    And el total del producto UI debe ser 881.10
+    And el total de la factura UI debe ser 881.10
